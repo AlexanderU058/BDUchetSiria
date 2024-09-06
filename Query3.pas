@@ -1,0 +1,59 @@
+unit Query3;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfmQuery3 = class(TForm)
+    Panel2: TPanel;
+    buSpisok: TButton;
+    buExit: TButton;
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    procedure buExitClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure buSpisokClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmQuery3: TfmQuery3;
+
+implementation
+
+{$R *.dfm}
+
+uses DM;
+
+procedure TfmQuery3.buExitClick(Sender: TObject);
+begin
+  fmQuery3.Close;
+end;
+
+procedure TfmQuery3.buSpisokClick(Sender: TObject);
+begin
+with fmDM do
+ begin
+    if dstQuery3.Active then dstQuery3.Close;
+    dstQuery3.SelectSQL.Clear;
+    dstQuery3.SelectSQL.Add('SELECT NOMERNAKL, DATA');
+    dstQuery3.SelectSQL.Add('FROM NAKLADNAYA');
+    dstQuery3.SelectSQL.Add('ORDER BY NOMERNAKL');
+    dstQuery3.Open;
+  end;
+end;
+
+procedure TfmQuery3.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   Action := caFree;
+   fmQuery3 := nil;
+end;
+
+end.

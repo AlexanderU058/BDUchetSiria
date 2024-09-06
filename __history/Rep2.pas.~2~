@@ -1,0 +1,32 @@
+unit Rep2;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.DBCtrls, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfmRep2 = class(TForm)
+    Panel2: TPanel;
+    buSform: TButton;
+    buExit: TButton;
+    Panel1: TPanel;
+    Label1: TLabel;
+    cbEdIzmer: TDBLookupComboBox;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmRep2: TfmRep2;
+
+implementation
+
+{$R *.dfm}
+
+uses DM;
+
+end.

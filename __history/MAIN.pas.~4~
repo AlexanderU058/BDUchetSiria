@@ -1,0 +1,57 @@
+unit MAIN;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.Imaging.jpeg,
+  Vcl.ExtCtrls;
+
+type
+  TfmMain = class(TForm)
+    MainMenu1: TMainMenu;
+    Image1: TImage;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    N3: TMenuItem;
+    N4: TMenuItem;
+    N5: TMenuItem;
+    N6: TMenuItem;
+    N7: TMenuItem;
+    N8: TMenuItem;
+    N9: TMenuItem;
+    N10: TMenuItem;
+    N11: TMenuItem;
+    N12: TMenuItem;
+    N13: TMenuItem;
+    N14: TMenuItem;
+    N15: TMenuItem;
+    procedure N5Click(Sender: TObject);
+    procedure N4Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmMain: TfmMain;
+
+implementation
+
+{$R *.dfm}
+
+uses DM, NAKLADNAYA, SIRIE, POSTAVSHIK, EDIZMER, Query1, Query2, Query3, Rep1,
+  Rep2, Rep3;
+
+procedure TfmMain.N4Click(Sender: TObject);
+begin
+Application.MessageBox('Курсовую работу выполнил студент группы Учуев Александр Федорович','Информация об авторе');
+end;
+
+procedure TfmMain.N5Click(Sender: TObject);
+begin
+Application.Terminate;
+end;
+
+end.

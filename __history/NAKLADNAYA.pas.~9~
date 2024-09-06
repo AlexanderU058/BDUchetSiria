@@ -1,0 +1,63 @@
+unit NAKLADNAYA;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.DBCtrls;
+
+type
+  TfmNaklPost = class(TForm)
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    StatusBar1: TStatusBar;
+    Panel4: TPanel;
+    StatusBar2: TStatusBar;
+    DBGrid2: TDBGrid;
+    Panel1: TPanel;
+    buExit: TButton;
+    buAdd: TButton;
+    buEdit: TButton;
+    buDelete: TButton;
+    edFiltr: TEdit;
+    buRefresh: TButton;
+    CheckBox1: TCheckBox;
+    Panel3: TPanel;
+    buExit2: TButton;
+    buAdd2: TButton;
+    buEdit2: TButton;
+    buDelete2: TButton;
+    Edit1: TEdit;
+    buRefresh2: TButton;
+    CheckBox2: TCheckBox;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmNaklPost: TfmNaklPost;
+
+implementation
+
+{$R *.dfm}
+
+uses DM, Add_NAKL, Edit_NAKL;
+
+procedure TfmNaklPost.FormShow(Sender: TObject);
+begin
+with fmDM do
+  begin
+    //Активизируем запрос
+    dstNakladnaya.Active := True;
+    dstPostavshik.Active :=True;
+    //Выводим количество записей в таблице EDIZMER
+    StatusBar1.Panels[1].Text := IntToStr(dstNakladnaya.RecordCount);
+    StatusBar2.Panels[1].Text := IntToStr(dstPostavshik.RecordCount);
+  end;
+end;
+
+end.

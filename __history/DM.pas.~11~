@@ -1,0 +1,86 @@
+unit DM;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.DB, FIBDataSet, FIBDatabase,
+  pFIBDatabase, pFIBDataSet, frxClass, frxDBSet;
+
+type
+  TfmDM = class(TDataModule)
+    dbSklad: TpFIBDatabase;
+    dstSirie: TpFIBDataSet;
+    dstPostavshik: TpFIBDataSet;
+    dstNakladnaya: TpFIBDataSet;
+    dstEdIzmer: TpFIBDataSet;
+    WriteTransaction: TpFIBTransaction;
+    ReadTransaction: TpFIBTransaction;
+    dsSirie: TDataSource;
+    dsPostavshik: TDataSource;
+    dsNakladnaya: TDataSource;
+    dsEdIzmer: TDataSource;
+    dstSirieNOMERSIRIA: TFIBIntegerField;
+    dstSirieNAIMENOVANIE: TFIBStringField;
+    dstSirieSORT: TFIBStringField;
+    dstSirieEDIZMER: TFIBStringField;
+    dstSirieCENA: TFIBFloatField;
+    dstSirieNOMERNAKL: TFIBIntegerField;
+    dstPostavshikNOMERPOSTAVSHIKA: TFIBIntegerField;
+    dstPostavshikNAZVANIE: TFIBStringField;
+    dstPostavshikADRES: TFIBStringField;
+    dstPostavshikNOMERNAKL: TFIBIntegerField;
+    dstNakladnayaNOMERNAKL: TFIBIntegerField;
+    dstNakladnayaDATA: TFIBDateTimeField;
+    dstNakladnayaNAIMENSIRIA: TFIBStringField;
+    dstNakladnayaKOLICHESTVO: TFIBIntegerField;
+    dstNakladnayaSUMMA: TFIBFloatField;
+    dstEdIzmerNOMEREDIZM: TFIBIntegerField;
+    dstEdIzmerNAZVANIE: TFIBStringField;
+    dstEdIzmerKODNAZV: TFIBIntegerField;
+    dsSel1: TDataSource;
+    dstQuery1: TpFIBDataSet;
+    dstQuery2: TpFIBDataSet;
+    dstQuery3: TpFIBDataSet;
+    dsSel2: TDataSource;
+    dsSel3: TDataSource;
+    frxReport1: TfrxReport;
+    frxReport2: TfrxReport;
+    frxReport3: TfrxReport;
+    frxDBDataset1: TfrxDBDataset;
+    frxDBDataset2: TfrxDBDataset;
+    frxDBDataset3: TfrxDBDataset;
+    dstQuery2NAZVANIE: TFIBStringField;
+    dstQuery3NOMERNAKL: TFIBIntegerField;
+    dstQuery3DATA: TFIBDateTimeField;
+    dstQuery1NAZVANIE: TFIBStringField;
+    dstRep1: TpFIBDataSet;
+    FIBIntegerField1: TFIBIntegerField;
+    FIBStringField1: TFIBStringField;
+    FIBStringField2: TFIBStringField;
+    FIBIntegerField2: TFIBIntegerField;
+    dsRep1: TDataSource;
+
+
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmDM: TfmDM;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+
+
+
+
+
+
+end.

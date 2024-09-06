@@ -1,0 +1,109 @@
+unit NAKLPOST;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.DBCtrls;
+
+type
+  TfmNaklPost = class(TForm)
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    StatusBar1: TStatusBar;
+    Panel4: TPanel;
+    StatusBar2: TStatusBar;
+    DBGrid2: TDBGrid;
+    Panel1: TPanel;
+    buExit: TButton;
+    buAdd: TButton;
+    buEdit: TButton;
+    buDelete: TButton;
+    edFiltr: TEdit;
+    buRefresh: TButton;
+    CheckBox1: TCheckBox;
+    Panel3: TPanel;
+    buAdd2: TButton;
+    buEdit2: TButton;
+    buDelete2: TButton;
+    Edit1: TEdit;
+    buRefresh2: TButton;
+    CheckBox2: TCheckBox;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure buExitClick(Sender: TObject);
+    procedure buAddClick(Sender: TObject);
+    procedure buEditClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmNaklPost: TfmNaklPost;
+
+implementation
+
+{$R *.dfm}
+
+uses DM, Add_NAKL, Edit_NAKL;
+
+procedure TfmNaklPost.buAddClick(Sender: TObject);
+begin
+//Создать форму Add
+  fmAddNakl := TfmAddNakl.Create(Application);
+  //Выполняем на этой форме добавление записи
+  if fmAddNakl.ShowModal = mrOK then
+  begin
+    //Подтверждаем транзакцию
+    fmDM.dstNakladnaya.Post;
+    StatusBar1.Panels[1].Text := IntToStr(fmDM.dstNakladnaya.RecordCount);
+  end
+  //или откатываем её
+  else fmDM.dstEdIzmer.Cancel;
+end;
+
+procedure TfmNaklPost.buEditClick(Sender: TObject);
+begin
+//Проверить существуют ли записи в таблице
+  if fmDM.dstNakladnaya.RecordCount = 0  then exit
+  //Создать форму fmChange
+  else fmEditNakl := fmEditNakl.Create(Application);
+   //Выполняем на этой форме изменение записи
+  if fmEditNakl.ShowModal = mrOK then
+  begin
+    //Подтверждаем транзакцию
+    fmDM.dstNakladnaya.Post;
+    StatusBar1.Panels[1].Text := IntToStr(fmDM.dstNakladnaya.RecordCount);
+  end
+  //или откатываем ее
+  else fmDM.dstEdIzmer.Cancel;
+end;
+
+procedure TfmNaklPost.buExitClick(Sender: TObject);
+begin
+  fmNaklPost.Close;
+end;
+
+procedure TfmNaklPost.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  fmDM.dstNakladnaya.Active := False;
+  fmDM.dstPostavshik.Active :=False;
+end;
+
+procedure TfmNaklPost.FormShow(Sender: TObject);
+begin
+with fmDM do
+  begin
+    //Активизируем запрос
+    dstNakladnaya.Active := True;
+    dstPostavshik.Active :=True;
+    //Выводим количество записей в таблице EDIZMER
+    StatusBar1.Panels[1].Text := IntToStr(dstNakladnaya.RecordCount);
+    StatusBar2.Panels[1].Text := IntToStr(dstPostavshik.RecordCount);
+  end;
+end;
+
+end.

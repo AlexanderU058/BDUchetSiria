@@ -1,0 +1,63 @@
+unit Rep3;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls;
+
+type
+  TfmRep3 = class(TForm)
+    Panel2: TPanel;
+    buSform: TButton;
+    buExit: TButton;
+    Panel1: TPanel;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    Label1: TLabel;
+    Label2: TLabel;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure buSformClick(Sender: TObject);
+
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmRep3: TfmRep3;
+
+implementation
+
+{$R *.dfm}
+
+uses DM;
+
+
+
+procedure TfmRep3.buSformClick(Sender: TObject);
+begin
+with fmDM do
+ begin
+    if dstNakladnaya.Active then dstNakladnaya.Close;
+    dstNakladnaya.SelectSQL.Clear;
+    dstNakladnaya.SelectSQL.Add('SELECT *');
+    dstNakladnaya.SelectSQL.Add('FROM NAKLADNAYA');
+    dstNakladnaya.SelectSQL.Add('WHERE DATA >= '+DateTimeToStr(DateTimePicker1.DateTime)+'and DATA <='+DateTimeToStr(DateTimePicker2.DateTime)+';');
+    dstNakladnaya.Open;
+    frxReport3.ShowReport();
+  end
+end;
+
+procedure TfmRep3.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   fmDM.dstNakladnaya.Active := False;
+   Action := caFree;
+   fmRep3 := nil;
+end;
+
+
+
+end.

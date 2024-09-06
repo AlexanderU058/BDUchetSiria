@@ -1,0 +1,153 @@
+unit SIRIE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.DBCtrls;
+
+type
+  TfmSirie = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    StatusBar1: TStatusBar;
+    buExit: TButton;
+    buAdd: TButton;
+    buEdit: TButton;
+    buDelete: TButton;
+    DBGrid1: TDBGrid;
+    edFiltr: TEdit;
+    buRefresh: TButton;
+    CheckBox1: TCheckBox;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure buExitClick(Sender: TObject);
+    procedure buDeleteClick(Sender: TObject);
+    procedure buRefreshClick(Sender: TObject);
+    procedure buAddClick(Sender: TObject);
+    procedure buEditClick(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmSirie: TfmSirie;
+
+implementation
+
+{$R *.dfm}
+
+uses DM, Add_SIRIE, Edit_SIRIE;
+
+procedure TfmSirie.buAddClick(Sender: TObject);
+begin
+  //Создать форму Add
+  fmAddSirie := TfmAddSirie.Create(Application);
+  //Выполняем на этой форме добавление записи
+  if fmAddSirie.ShowModal = mrOK then
+  begin
+    //Подтверждаем транзакцию
+    fmDM.dstSirie.Post;
+    StatusBar1.Panels[1].Text := IntToStr(fmDM.dstSirie.RecordCount);
+  end
+  //или откатываем её
+  else fmDM.dstSirie.Cancel;
+end;
+
+
+
+procedure TfmSirie.buDeleteClick(Sender: TObject);
+begin
+with fmDM do
+  begin
+    if fmDM.dstSirie.RecordCount = 0  then exit;
+    if Application.MessageBox('Удалить текущую запись?', 'Удаление', MB_YESNO) = mrYes then fmDM.dstSirie.Delete;
+    StatusBar1.Panels[1].Text := IntToStr(fmDM.dstSirie.RecordCount);
+  end;
+end;
+
+procedure TfmSirie.buEditClick(Sender: TObject);
+begin
+//Проверить существуют ли записи в таблице
+  if fmDM.dstSirie.RecordCount = 0  then exit
+  //Создать форму fmChange
+  else fmEditSirie := TfmEditSirie.Create(Application);
+   //Выполняем на этой форме изменение записи
+  if fmEditSirie.ShowModal = mrOK then
+  begin
+    //Подтверждаем транзакцию
+    fmDM.dstSirie.Post;
+    StatusBar1.Panels[1].Text := IntToStr(fmDM.dstSirie.RecordCount);
+  end
+  //или откатываем ее
+  else fmDM.dstSirie.Cancel;
+end;
+
+procedure TfmSirie.buExitClick(Sender: TObject);
+begin
+  fmSirie.Close;
+end;
+
+procedure TfmSirie.buRefreshClick(Sender: TObject);
+begin
+with fmDM do
+    begin
+    //Обновляем набор данных dstSirie
+      dstSirie.FullRefresh;
+    //Выводим количество записей в таблице SIRIE
+      StatusBar1.Panels[1].Text := IntToStr(dstSirie.RecordCount);
+   end;
+end;
+
+
+
+procedure TfmSirie.CheckBox1Click(Sender: TObject);
+var
+  fn : string;
+begin
+  fn := '';
+  if (CheckBox1.Checked) and (edFiltr.Text<>'') then
+  begin
+    //Если свойство checked установлено и есть образец для поиска
+    fn := '(NAIMENOVANIE '''+edFiltr.Text+'%'')';
+    fmDM.dstSirie.Close;
+    fmDM.dstSirie.MainWhereClause := fn;
+    fmDM.dstSirie.Open;
+  end
+  else
+  begin
+    //Если свойство checked не установлено
+    fmDM.dstSirie.Close;
+    fmDM.dstSirie.MainWhereClause := fn;
+    fmDM.dstSirie.Open;
+  end;
+end;
+
+
+procedure TfmSirie.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+with fmDM do
+  begin
+    //Запрос закрывается.
+    dstSirie.Active := False;
+  end;
+end;
+
+procedure TfmSirie.FormShow(Sender: TObject);
+begin
+  with fmDM do
+  begin
+    //Активизируем запрос
+    dstSirie.Active := True;
+    //Выводим количество записей в таблице SIRIE
+    StatusBar1.Panels[1].Text := IntToStr(dstSirie.RecordCount);
+end;
+
+end;
+
+end.

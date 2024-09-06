@@ -1,0 +1,68 @@
+unit Rep1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.ExtCtrls;
+
+type
+  TfmRep1 = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    buSform: TButton;
+    buExit: TButton;
+    cbNaimen: TDBLookupComboBox;
+    Label1: TLabel;
+    procedure buExitClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure buSformClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmRep1: TfmRep1;
+
+implementation
+
+{$R *.dfm}
+
+uses DM;
+
+procedure TfmRep1.buExitClick(Sender: TObject);
+begin
+fmRep1.Close;
+end;
+
+procedure TfmRep1.buSformClick(Sender: TObject);
+begin
+with fmDM do
+ begin
+    if dstRep1.Active then dstRep1.Close;
+    dstRep1.SelectSQL.Clear;
+    dstRep1.SelectSQL.Add('SELECT NOMERPOSTAVSHIKA, NAZVANIE, ADRES, NOMERNAKL, NAIMENOVANIE, NOMERNAKL');
+    dstRep1.SelectSQL.Add('FROM POSTAVSHIK');
+    dstRep1.SelectSQL.Add('JOIN SIRIE  ON (POSTAVSHIK.NOMERNAKL = SIRIE.NOMERNAKL AND SIRIE.NAIMENOVANIE = '+chr(39)+cbNaimen.Text+chr(39)+');');
+    dstRep1.Open;
+    frxReport1.ShowReport();
+  end
+end;
+
+procedure TfmRep1.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   fmDM.dstSirie.Active := False;
+   Action := caFree;
+   fmRep1 := nil;
+end;
+
+procedure TfmRep1.FormShow(Sender: TObject);
+begin
+  fmDM.dstSirie.Active := True;
+end;
+
+end.
+

@@ -1,0 +1,327 @@
+unit NAKLPOST;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.DBCtrls;
+
+type
+  TfmNaklPost = class(TForm)
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    StatusBar1: TStatusBar;
+    Panel4: TPanel;
+    StatusBar2: TStatusBar;
+    DBGrid2: TDBGrid;
+    Panel1: TPanel;
+    buExit: TButton;
+    buAdd: TButton;
+    buEdit: TButton;
+    buDelete: TButton;
+    edFiltr: TEdit;
+    buRefresh: TButton;
+    CheckBox1: TCheckBox;
+    Panel3: TPanel;
+    buAdd2: TButton;
+    buEdit2: TButton;
+    buDelete2: TButton;
+    edFiltr2: TEdit;
+    buRefresh2: TButton;
+    CheckBox2: TCheckBox;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure buExitClick(Sender: TObject);
+    procedure buAddClick(Sender: TObject);
+    procedure buEditClick(Sender: TObject);
+    procedure buDeleteClick(Sender: TObject);
+    procedure buRefreshClick(Sender: TObject);
+    procedure buAdd2Click(Sender: TObject);
+    procedure buEdit2Click(Sender: TObject);
+    procedure buDelete2Click(Sender: TObject);
+    procedure buRefresh2Click(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
+    procedure DBGrid1TitleClick(Column: TColumn);
+    procedure edFiltrChange(Sender: TObject);
+    procedure CheckBox2Click(Sender: TObject);
+    procedure edFiltr2Change(Sender: TObject);
+    procedure DBGrid2TitleClick(Column: TColumn);
+    procedure DBGrid1CellClick(Column: TColumn);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmNaklPost: TfmNaklPost;
+
+implementation
+
+{$R *.dfm}
+
+uses DM, Add_NAKL, Edit_NAKL, Add_POST, Edit_POST;
+
+
+
+procedure TfmNaklPost.buAdd2Click(Sender: TObject);
+begin
+  //Создать форму fmAddPostavshik
+  fmAddPostavshik := fmAddPostavshik.Create(Application);
+  //Выполняем на этой форме добавление записи
+  if fmAddPostavshik.ShowModal = mrOK then
+  begin
+    //Подтверждаем транзакцию
+    fmDM.dstPostavshik.Post;
+    StatusBar2.Panels[1].Text := IntToStr(fmDM.dstPostavshik.RecordCount);
+  end
+  //или откатываем её
+  else fmDM.dstPostavshik.Cancel;
+end;
+
+procedure TfmNaklPost.buAddClick(Sender: TObject);
+begin
+//Создать форму fmAddNakladnaya
+  fmAddNakladnaya := fmAddNakladnaya.Create(Application);
+  //Выполняем на этой форме добавление записи
+  if fmAddNakladnaya.ShowModal = mrOK then
+  begin
+    //Подтверждаем транзакцию
+    fmDM.dstNakladnaya.Post;
+    StatusBar1.Panels[1].Text := IntToStr(fmDM.dstNakladnaya.RecordCount);
+  end
+  //или откатываем её
+  else fmDM.dstNakladnaya.Cancel;
+end;
+
+
+
+procedure TfmNaklPost.buDelete2Click(Sender: TObject);
+begin
+  with fmDM do
+  begin
+    if dstPostavshik.RecordCount = 0  then exit;
+    if Application.MessageBox('Удалить текущую запись?', 'Удаление', MB_YESNO) = mrYes then dstPostavshik.Delete;
+    StatusBar2.Panels[1].Text := IntToStr(dstPostavshik.RecordCount);
+  end;
+end;
+
+procedure TfmNaklPost.buDeleteClick(Sender: TObject);
+begin
+with fmDM do
+  begin
+    if dstNakladnaya.RecordCount = 0  then exit;
+    if Application.MessageBox('Удалить текущую запись?', 'Удаление', MB_YESNO) = mrYes then dstNakladnaya.Delete;
+    StatusBar1.Panels[1].Text := IntToStr(dstNakladnaya.RecordCount);
+  end;
+end;
+
+procedure TfmNaklPost.buEdit2Click(Sender: TObject);
+begin
+   //Проверить существуют ли записи в таблице
+  if fmDM.dstPostavshik.RecordCount = 0  then exit
+  //Создать форму fmEditNakladnaya
+  else fmEditPostavshik := fmEditPostavshik.Create(Application);
+   //Выполняем на этой форме изменение записи
+  if fmEditPostavshik.ShowModal = mrOK then
+  begin
+    //Подтверждаем транзакцию
+    fmDM.dstPostavshik.Post;
+    StatusBar2.Panels[1].Text := IntToStr(fmDM.dstPostavshik.RecordCount);
+  end
+  //или откатываем ее
+  else fmDM.dstPostavshik.Cancel;
+end;
+
+procedure TfmNaklPost.buEditClick(Sender: TObject);
+begin
+//Проверить существуют ли записи в таблице
+  if fmDM.dstNakladnaya.RecordCount = 0  then exit
+  //Создать форму fmEditNakladnaya
+  else fmEditNakladnaya := fmEditNakladnaya.Create(Application);
+   //Выполняем на этой форме изменение записи
+  if fmEditNakladnaya.ShowModal = mrOK then
+  begin
+    //Подтверждаем транзакцию
+    fmDM.dstNakladnaya.Post;
+    StatusBar1.Panels[1].Text := IntToStr(fmDM.dstNakladnaya.RecordCount);
+  end
+  //или откатываем ее
+  else fmDM.dstNakladnaya.Cancel;
+end;
+
+
+
+
+procedure TfmNaklPost.buExitClick(Sender: TObject);
+begin
+  fmNaklPost.Close;
+end;
+
+procedure TfmNaklPost.buRefresh2Click(Sender: TObject);
+begin
+ with fmDM do
+    begin
+    //Обновляем набор данных dstPostavshik
+      dstPostavshik.FullRefresh;
+    //Выводим количество записей в таблице POSTAVSHIK
+      StatusBar2.Panels[1].Text := IntToStr(dstPostavshik.RecordCount);
+   end;
+end;
+
+procedure TfmNaklPost.buRefreshClick(Sender: TObject);
+begin
+with fmDM do
+    begin
+    //Обновляем набор данных dstNakladnaya
+      dstNakladnaya.FullRefresh;
+    //Выводим количество записей в таблице NAKLADNAYA
+      StatusBar1.Panels[1].Text := IntToStr(dstNakladnaya.RecordCount);
+   end;
+end;
+
+procedure TfmNaklPost.CheckBox1Click(Sender: TObject);
+var
+  fn : string;
+begin
+  fn := '';
+  if (CheckBox1.Checked) and (edFiltr.Text<>'') then
+  begin
+    //Если свойство checked установлено и есть образец для поиска
+    fn := '(NOMERNAKL LIKE'''+edFiltr.Text+'%'')';
+    fmDM.dstNakladnaya.Close;
+    fmDM.dstNakladnaya.MainWhereClause := fn;
+    fmDM.dstNakladnaya.Open;
+  end
+  else
+  begin
+    //Если свойство checked не установлено
+    fmDM.dstNakladnaya.Close;
+    fmDM.dstNakladnaya.MainWhereClause := fn;
+    fmDM.dstNakladnaya.Open;
+  end;
+end;
+
+
+
+
+procedure TfmNaklPost.CheckBox2Click(Sender: TObject);
+var
+  fn : string;
+begin
+  fn := '';
+  if (CheckBox2.Checked) and (edFiltr2.Text<>'') then
+  begin
+    //Если свойство checked установлено и есть образец для поиска
+    fn := '(NAZVANIE LIKE'''+edFiltr2.Text+'%'')';
+    fmDM.dstPostavshik.Close;
+    fmDM.dstPostavshik.MainWhereClause := fn;
+    fmDM.dstPostavshik.Open;
+  end
+  else
+  begin
+    //Если свойство checked не установлено
+    fmDM.dstPostavshik.Close;
+    fmDM.dstPostavshik.MainWhereClause := fn;
+    fmDM.dstPostavshik.Open;
+  end;
+end;
+
+
+
+procedure TfmNaklPost.DBGrid1CellClick(Column: TColumn);
+begin
+ fmDM.dstPostavshik.FullRefresh;
+end;
+
+procedure TfmNaklPost.DBGrid1TitleClick(Column: TColumn);
+var
+cn : string;
+begin
+  cn := Column.FieldName;
+  if fmDM.dstNakladnaya.OrderClause <> cn  then
+  begin
+    fmDM.dstNakladnaya.Close;
+    fmDM.dstNakladnaya.OrderClause := cn;
+    fmDM.dstNakladnaya.Open;
+  end;
+end;
+
+procedure TfmNaklPost.DBGrid2TitleClick(Column: TColumn);
+var
+cn : string;
+begin
+  cn := Column.FieldName;
+  if fmDM.dstPostavshik.OrderClause <> cn  then
+  begin
+    fmDM.dstPostavshik.Close;
+    fmDM.dstPostavshik.OrderClause := cn;
+    fmDM.dstPostavshik.Open;
+  end;
+end;
+
+procedure TfmNaklPost.edFiltr2Change(Sender: TObject);
+var
+  fn : string;
+begin
+    fn := '';
+  if (CheckBox2.Checked) and (edFiltr2.Text<>'') then
+  begin
+    //Если свойство checked установлено и есть образец для поиска
+    fn := '(NAZVANIE LIKE '''+edFiltr2.Text+'%'')';
+    fmDM.dstPostavshik.Close;
+    fmDM.dstPostavshik.MainWhereClause := fn;
+    fmDM.dstPostavshik.Open;
+  end
+  else
+  begin
+    //Если свойство checked не установлено
+    fmDM.dstPostavshik.Close;
+    fmDM.dstPostavshik.MainWhereClause := fn;
+    fmDM.dstPostavshik.Open;
+  end;
+end;
+
+procedure TfmNaklPost.edFiltrChange(Sender: TObject);
+var
+  fn : string;
+begin
+    fn := '';
+  if (CheckBox1.Checked) and (edFiltr.Text<>'') then
+  begin
+    //Если свойство checked установлено и есть образец для поиска
+    fn := '(NOMERNAKL LIKE '''+edFiltr.Text+'%'')';
+    fmDM.dstNakladnaya.Close;
+    fmDM.dstNakladnaya.MainWhereClause := fn;
+    fmDM.dstNakladnaya.Open;
+  end
+  else
+  begin
+    //Если свойство checked не установлено
+    fmDM.dstNakladnaya.Close;
+    fmDM.dstNakladnaya.MainWhereClause := fn;
+    fmDM.dstNakladnaya.Open;
+  end;
+end;
+
+procedure TfmNaklPost.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  fmDM.dstNakladnaya.Active := False;
+  fmDM.dstPostavshik.Active :=False;
+end;
+
+procedure TfmNaklPost.FormShow(Sender: TObject);
+begin
+with fmDM do
+  begin
+    //Активизируем запрос
+    dstNakladnaya.Active := True;
+    dstPostavshik.Active :=True;
+    //Выводим количество записей в таблице EDIZMER
+    StatusBar1.Panels[1].Text := IntToStr(dstNakladnaya.RecordCount);
+    StatusBar2.Panels[1].Text := IntToStr(dstPostavshik.RecordCount);
+  end;
+end;
+
+end.

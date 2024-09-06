@@ -1,0 +1,77 @@
+unit Edit_SIRIE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfmEditSirie = class(TForm)
+    Panel2: TPanel;
+    buOk: TButton;
+    buCancel: TButton;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    edNaimen: TEdit;
+    edSort: TEdit;
+    edEdIzmer: TEdit;
+    edCena: TEdit;
+    edNomNakl: TEdit;
+    procedure buOkClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmEditSirie: TfmEditSirie;
+
+implementation
+
+{$R *.dfm}
+
+uses DM;
+
+procedure TfmEditSirie.buOkClick(Sender: TObject);
+begin
+with fmDM do
+  begin
+    //Включаем набор данных в режим изменения записи
+   dstSirie.Edit;
+    //Заносим введенные значения в набор данных dstSirie
+    dstSirie.FBN('NAIMENOVANIE').AsString := edNaimen.Text;
+    dstSirie.FBN('SORT').AsString := edSort.Text;
+    dstSirie.FBN('EDIZMER').AsString := edEdIzmer.Text;
+    dstSirie.FBN('CENA').AsInteger := StrToInt(edCena.Text);
+    dstSirie.FBN('NOMERNAKL').AsInteger := StrToInt(edNomNakl.Text);
+  end;
+end;
+
+procedure TfmEditSirie.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+//Удаляем форму из памяти компьютера
+  Action := caFree;
+  fmEditSirie := nil;
+end;
+
+procedure TfmEditSirie.FormShow(Sender: TObject);
+begin
+with fmDM do
+  begin
+    edNaimen.Text := dstSirie.FBN('NAIMENOVANIE').AsString;
+    edSort.Text := dstSirie.FBN('SORT').AsString;
+    edEdIzmer.Text := dstSirie.FBN('EDIZMER').AsString;
+    edCena.Text := dstSirie.FBN('CENA').AsString;
+    edNomNakl.Text := dstSirie.FBN('NOMERNAKL').AsString;
+  end;
+end;
+
+end.

@@ -1,0 +1,70 @@
+unit Edit_EDIZMER;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfmEditEdIzmer = class(TForm)
+    Panel2: TPanel;
+    buOk: TButton;
+    buCancel: TButton;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    edNazv: TEdit;
+    edKod: TEdit;
+    procedure buOkClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure edNazvKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmEditEdIzmer: TfmEditEdIzmer;
+
+implementation
+
+{$R *.dfm}
+
+uses DM;
+
+procedure TfmEditEdIzmer.buOkClick(Sender: TObject);
+begin
+with fmDM do
+  begin
+    //Включаем набор данных в режим добавления записи
+    dstEdIzmer.Edit;
+    //Заносим введенные значения в набор данных dstEdIzmer
+    dstEdIzmer.FBN('NAZVANIE').AsString := edNazv.Text;
+    dstEdIzmer.FBN('KODNAZV').AsInteger := StrToInt(edKod.Text);
+  end;
+end;
+
+procedure TfmEditEdIzmer.edNazvKeyPress(Sender: TObject; var Key: Char);
+begin
+if not (((Key >= #192) AND (Key <= #255)) OR (Key in ['.', ' ', #8])) then Key :=#0;
+end;
+
+procedure TfmEditEdIzmer.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree;
+  fmEditEdIzmer := nil;
+end;
+
+procedure TfmEditEdIzmer.FormShow(Sender: TObject);
+begin
+with fmDM do
+  begin
+    edNazv.Text := dstEdIzmer.FBN('NAZVANIE').AsString;
+    edKod.Text := dstEdIzmer.FBN('KODNAZV').AsString;
+  end;
+end;
+
+end.

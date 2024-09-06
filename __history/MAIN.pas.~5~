@@ -1,0 +1,70 @@
+unit MAIN;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.Imaging.jpeg,
+  Vcl.ExtCtrls;
+
+type
+  TfmMain = class(TForm)
+    MainMenu1: TMainMenu;
+    Image1: TImage;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    N3: TMenuItem;
+    mAvtor: TMenuItem;
+    mExit: TMenuItem;
+    mSirie: TMenuItem;
+    mNaklPost: TMenuItem;
+    mEdIzmer: TMenuItem;
+    mQ1: TMenuItem;
+    mQ2: TMenuItem;
+    mQ3: TMenuItem;
+    mR1: TMenuItem;
+    mR2: TMenuItem;
+    mR3: TMenuItem;
+    procedure mExitClick(Sender: TObject);
+    procedure mAvtorClick(Sender: TObject);
+    procedure mSirieClick(Sender: TObject);
+    procedure mNaklPostClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmMain: TfmMain;
+
+implementation
+
+{$R *.dfm}
+
+uses DM, NAKLADNAYA, SIRIE, POSTAVSHIK, EDIZMER, Query1, Query2, Query3, Rep1,
+  Rep2, Rep3;
+
+procedure TfmMain.mAvtorClick(Sender: TObject);
+begin
+Application.MessageBox('Курсовую работу выполнил студент группы Учуев Александр Федорович','Информация об авторе');
+end;
+
+procedure TfmMain.mExitClick(Sender: TObject);
+begin
+Application.Terminate;
+end;
+
+procedure TfmMain.mNaklPostClick(Sender: TObject);
+begin
+    fmNaklPost := TfmNaklPost.Create(Application);
+    fmNaklPost.ShowModal;
+end;
+
+procedure TfmMain.mSirieClick(Sender: TObject);
+begin
+  fmSirie := TfmSirie.Create(Application);
+  fmSirie.ShowModal;
+end;
+
+end.

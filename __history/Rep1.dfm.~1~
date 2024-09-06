@@ -1,0 +1,16 @@
+object fmRep1: TfmRep1
+  Left = 0
+  Top = 0
+  Caption = #1054#1090#1095#1077#1090' "'#1057#1087#1080#1089#1086#1082' '#1087#1086#1089#1090#1072#1074#1097#1080#1082#1086#1074' '#1091#1082#1072#1079#1072#1085#1085#1086#1075#1086' '#1089#1099#1088#1100#1103'"'
+  ClientHeight = 299
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+end

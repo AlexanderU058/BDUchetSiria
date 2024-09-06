@@ -1,0 +1,86 @@
+unit Edit_SIRIE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.DBCtrls;
+
+type
+  TfmEditSirie = class(TForm)
+    Panel2: TPanel;
+    buOk: TButton;
+    buCancel: TButton;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    edNaimen: TEdit;
+    edSort: TEdit;
+    edCena: TEdit;
+    edNomNakl: TEdit;
+    cbEdIzmer: TDBLookupComboBox;
+    procedure buOkClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure edNaimenKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmEditSirie: TfmEditSirie;
+
+implementation
+
+{$R *.dfm}
+
+uses DM;
+
+procedure TfmEditSirie.buOkClick(Sender: TObject);
+begin
+with fmDM do
+  begin
+    //Включаем набор данных в режим изменения записи
+   dstSirie.Edit;
+    //Заносим введенные значения в набор данных dstSirie
+    dstSirie.FBN('NAIMENOVANIE').AsString := edNaimen.Text;
+    dstSirie.FBN('SORT').AsString := edSort.Text;
+    dstSirie.FBN('EDIZMER').AsString := cbEdIzmer.Text;
+    dstSirie.FBN('CENA').AsInteger := StrToInt(edCena.Text);
+    dstSirie.FBN('NOMERNAKL').AsInteger := StrToInt(edNomNakl.Text);
+  end;
+end;
+
+procedure TfmEditSirie.edNaimenKeyPress(Sender: TObject; var Key: Char);
+begin
+if not (((Key >= #192) AND (Key <= #255)) OR (Key in ['.', ' ', #8])) then Key :=#0;
+end;
+
+procedure TfmEditSirie.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+//Удаляем форму из памяти компьютера
+  Action := caFree;
+  fmEditSirie := nil;
+  fmDM.dstEdIzmer.Active:=False;
+end;
+
+procedure TfmEditSirie.FormShow(Sender: TObject);
+begin
+
+with fmDM do
+  begin
+    dstEdIzmer.Active:=True;
+    edNaimen.Text := dstSirie.FBN('NAIMENOVANIE').AsString;
+    edSort.Text := dstSirie.FBN('SORT').AsString;
+    cbEdIzmer.KeyValue := dstSirie.FBN('EDIZMER').AsString;
+    edCena.Text := dstSirie.FBN('CENA').AsString;
+    edNomNakl.Text := dstSirie.FBN('NOMERNAKL').AsString;
+  end;
+end;
+
+end.

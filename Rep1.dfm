@@ -1,0 +1,71 @@
+object fmRep1: TfmRep1
+  Left = 0
+  Top = 0
+  Caption = #1054#1090#1095#1077#1090' "'#1057#1087#1080#1089#1086#1082' '#1087#1086#1089#1090#1072#1074#1097#1080#1082#1086#1074' '#1091#1082#1072#1079#1072#1085#1085#1086#1075#1086' '#1089#1099#1088#1100#1103'"'
+  ClientHeight = 293
+  ClientWidth = 417
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 417
+    Height = 242
+    Align = alClient
+    TabOrder = 0
+    ExplicitHeight = 248
+    object Label1: TLabel
+      Left = 56
+      Top = 117
+      Width = 107
+      Height = 13
+      Caption = #1053#1072#1080#1084#1077#1085#1086#1074#1072#1085#1080#1077' '#1089#1099#1088#1100#1103
+    end
+    object cbNaimen: TDBLookupComboBox
+      Left = 208
+      Top = 117
+      Width = 145
+      Height = 21
+      KeyField = 'NOMERSIRIA'
+      ListField = 'NAIMENOVANIE'
+      ListSource = fmDM.dsSirie
+      TabOrder = 0
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 242
+    Width = 417
+    Height = 51
+    Align = alBottom
+    TabOrder = 1
+    ExplicitTop = 248
+    object buSform: TButton
+      Left = 56
+      Top = 16
+      Width = 107
+      Height = 25
+      Caption = #1057#1092#1086#1088#1084#1080#1088#1086#1074#1072#1090#1100
+      TabOrder = 0
+      OnClick = buSformClick
+    end
+    object buExit: TButton
+      Left = 256
+      Top = 16
+      Width = 75
+      Height = 25
+      Caption = #1042#1099#1093#1086#1076
+      TabOrder = 1
+      OnClick = buExitClick
+    end
+  end
+end

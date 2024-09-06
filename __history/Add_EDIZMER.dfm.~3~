@@ -1,0 +1,57 @@
+object Form7: TForm7
+  Left = 0
+  Top = 0
+  Caption = #1044#1086#1073#1072#1074#1083#1077#1085#1080#1077' '#1079#1072#1087#1080#1089#1080' '#1086' '#1077#1076#1080#1085#1080#1094#1072#1093' '#1080#1079#1084#1077#1088#1077#1085#1080#1103
+  ClientHeight = 299
+  ClientWidth = 422
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel2: TPanel
+    Left = 0
+    Top = 244
+    Width = 422
+    Height = 55
+    Align = alBottom
+    TabOrder = 0
+    ExplicitWidth = 374
+    object buOk: TButton
+      Left = 70
+      Top = 16
+      Width = 75
+      Height = 25
+      Caption = 'OK'
+      Default = True
+      ModalResult = 1
+      TabOrder = 0
+    end
+    object buCancel: TButton
+      Left = 216
+      Top = 16
+      Width = 75
+      Height = 25
+      Cancel = True
+      Caption = 'Cancel'
+      ModalResult = 2
+      TabOrder = 1
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 422
+    Height = 244
+    Align = alClient
+    TabOrder = 1
+    ExplicitLeft = 80
+    ExplicitTop = 136
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+  end
+end

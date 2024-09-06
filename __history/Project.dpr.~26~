@@ -1,0 +1,52 @@
+program Project;
+
+uses
+  Vcl.Forms,
+  MAIN in 'MAIN.pas' {fmMain},
+  SIRIE in 'SIRIE.pas' {fmSirie},
+  DM in 'DM.pas' {fmDM: TDataModule},
+  POSTAVSHIK in 'POSTAVSHIK.pas' {fmPostavshik},
+  NAKLADNAYA in 'NAKLADNAYA.pas' {fmNakladnaya},
+  EDIZMER in 'EDIZMER.pas' {fmEdIzmer},
+  Add_SIRIE in 'Add_SIRIE.pas' {Form1},
+  Edit_SIRIE in 'Edit_SIRIE.pas' {Form2},
+  Add_POST in 'Add_POST.pas' {Form3},
+  Edit_POST in 'Edit_POST.pas' {Form4},
+  Add_NAKL in 'Add_NAKL.pas' {Form5},
+  Edit_NAKL in 'Edit_NAKL.pas' {Form6},
+  Add_EDIZMER in 'Add_EDIZMER.pas' {Form7},
+  Edit_EDIZMER in 'Edit_EDIZMER.pas' {Form8},
+  Query1 in 'Query1.pas' {fmQuery1},
+  Query2 in 'Query2.pas' {fmQuery2},
+  Query3 in 'Query3.pas' {fmQuery3},
+  Rep1 in 'Rep1.pas' {fmRep1},
+  Rep2 in 'Rep2.pas' {fmRep2},
+  Rep3 in 'Rep3.pas' {fmRep3};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfmMain, fmMain);
+  Application.CreateForm(TfmSirie, fmSirie);
+  Application.CreateForm(TfmDM, fmDM);
+  Application.CreateForm(TfmPostavshik, fmPostavshik);
+  Application.CreateForm(TfmNakladnaya, fmNakladnaya);
+  Application.CreateForm(TfmEdIzmer, fmEdIzmer);
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TForm3, Form3);
+  Application.CreateForm(TForm4, Form4);
+  Application.CreateForm(TForm5, Form5);
+  Application.CreateForm(TForm6, Form6);
+  Application.CreateForm(TForm7, Form7);
+  Application.CreateForm(TForm8, Form8);
+  Application.CreateForm(TfmQuery1, fmQuery1);
+  Application.CreateForm(TfmQuery2, fmQuery2);
+  Application.CreateForm(TfmQuery3, fmQuery3);
+  Application.CreateForm(TfmRep1, fmRep1);
+  Application.CreateForm(TfmRep2, fmRep2);
+  Application.CreateForm(TfmRep3, fmRep3);
+  Application.Run;
+end.
